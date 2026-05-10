@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Only true fans of Paige can answer these 10 questions</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #00b4d8;
+    --pink: #eb6bff;
+    --yellow: #ffd60a;
+    --purple: #c77dff;
+    --dark: #1a1a2e;
+    --card: #16213e;
+    --correct: #06d6a0;
+    --wrong: #ef476f;
+    --text: #f0f0f0;
+    --muted: #a0a0c0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(199,125,255,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(0,180,216,0.12) 0%, transparent 50%);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #4f0389 0%, #8e0279 50%, #024e74 100%);
+    padding: 32px 20px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent, transparent 10px,
+      rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px
+    );
+  }
+  .header-eyebrow {
+    font-family: 'Fredoka One', cursive;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(28px, 8vw, 42px);
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .header-sub {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    position: relative;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    padding: 16px 20px 0;
+  }
+  .progress-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .progress-bar-bg {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    margin: 16px 16px 0;
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    display: none;
+    animation: slideIn 0.35s ease;
+  }
+  .question-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .question-image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    background: rgba(255,255,255,0.04);
+  }
+  .question-image-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, rgba(199,125,255,0.2), rgba(0,180,216,0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+
+  .question-body {
+    padding: 20px 16px 16px;
+  }
+  .question-number {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 8px;
+  }
+  .question-text {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+
+  /* ── CHOICES ── */
+  .choices { display: flex; flex-direction: column; gap: 10px; }
+
+  .choice-btn {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    line-height: 1.3;
+  }
+  .choice-btn:active { transform: scale(0.98); }
+  .choice-btn:not(.locked):hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .choice-letter {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    transition: background 0.2s;
+  }
+
+  .choice-btn.correct {
+    background: rgba(6,214,160,0.15);
+    border-color: var(--correct);
+    color: #fff;
+  }
+  .choice-btn.correct .choice-letter { background: var(--correct); color: #000; }
+
+  .choice-btn.wrong {
+    background: rgba(239,71,111,0.15);
+    border-color: var(--wrong);
+    color: rgba(255,255,255,0.5);
+  }
+  .choice-btn.wrong .choice-letter { background: var(--wrong); color: #fff; }
+
+  .choice-btn.greyed {
+    opacity: 0.35;
+  }
+  .choice-btn.locked { cursor: default; }
+
+  /* ── RESULT PANEL ── */
+  .result-panel {
+    margin: 12px 16px 0;
+    border-radius: 16px;
+    padding: 16px;
+    display: none;
+    animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .result-panel.show { display: block; }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .result-panel.correct-panel {
+    background: rgba(6,214,160,0.12);
+    border: 2px solid var(--correct);
+  }
+  .result-panel.wrong-panel {
+    background: rgba(239,71,111,0.12);
+    border: 2px solid var(--wrong);
+  }
+
+  .result-headline {
+    font-family: 'Fredoka One', cursive;
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .result-panel.correct-panel .result-headline { color: var(--correct); }
+  .result-panel.wrong-panel .result-headline { color: var(--wrong); }
+
+  .result-image {
+    width: 100%;
+    border-radius: 10px;
+    margin: 10px 0;
+    display: none;
+  }
+  .result-image.show { display: block; }
+
+  .result-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+  }
+
+  /* ── NEXT BUTTON ── */
+  .next-wrap {
+    padding: 16px 16px 0;
+    display: none;
+  }
+  .next-wrap.show { display: block; }
+
+  .next-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--pink), var(--purple));
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(255,107,157,0.35);
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .next-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 10px rgba(255,107,157,0.2);
+  }
+
+  /* ── SCORE SCREEN ── */
+  #score-screen {
+    display: none;
+    margin: 20px 16px;
+    text-align: center;
+    animation: slideIn 0.4s ease;
+  }
+  #score-screen.show { display: block; }
+
+  .score-badge {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    margin: 0 auto 20px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 0 60px rgba(199,125,255,0.4);
+  }
+  .score-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: 48px;
+    line-height: 1;
+    color: #fff;
+  }
+  .score-total {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+  }
+  .score-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  .score-message {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 28px;
+    padding: 0 10px;
+  }
+  .replay-btn {
+    padding: 14px 36px;
+    background: linear-gradient(135deg, var(--teal), var(--purple));
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,180,216,0.3);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">🎂 Happy 40th Birthday! 🎂</div>
+  <h1>Only true fans of Paige can answer these 10 questions</h1>
+  <div class="header-sub">✨ How many can you get right ✨</div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">Question <span id="q-current">1</span> of <span id="q-total">10</span></div>
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+</div>
+
+<!-- Questions are rendered here by JS -->
+<div id="quiz-container"></div>
+
+<div class="next-wrap" id="next-wrap">
+  <button class="next-btn" id="next-btn">Next Question →</button>
+</div>
+
+<div id="score-screen">
+  <div class="score-badge">
+    <div class="score-number" id="final-score">0</div>
+    <div class="score-total" id="final-total">/ 10</div>
+  </div>
+  <div class="score-title" id="score-title">Nice work!</div>
+  <div class="score-message" id="score-message"></div>
+  <button class="replay-btn" onclick="startQuiz()">Play Again 🔄</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// QUIZ DATA — edit questions here!
+//
+// Each question object:
+//   question:      the question text
+//   image:         path/URL to question image (or "" for emoji placeholder)
+//   imageEmoji:    emoji shown if no image (e.g. "📺")
+//   choices:       array of 4 answer strings
+//   correct:       index of correct answer (0–3)
+//   correctImage:  path/URL for correct result image (or "")
+//   wrongImage:    path/URL for wrong result image (or "")
+//   correctText:   text shown when correct
+//   wrongText:     text shown when wrong (tip: include the right answer naturally)
+// ═══════════════════════════════════════════════════════
+const questions = [
+  {
+    question: "What did Paige want to be when she grew up?",
+    image: "babyPic2.jpg",
+    imageEmoji: "👧",
+    choices: ["a egg", "a city planner", "a serial killer (please don't choose this)", "a right-wing politician"],
+    correct: 0,
+    correctImage: "egg.gif",
+    wrongImage: "egg.gif",
+    correctText: "She hasn't yet achieved this dream, but there's still time!",
+    wrongText: "If you chose serial killer, you're probably not too far off, but the real answer is 'a egg'! 🥚"
+  },
+  {
+    question: "What tv show did Alisyn start watching because she no longer understood Paige's references?",
+    image: "confused.gif",
+    imageEmoji: "📺",
+    choices: ["ER","Family Guy","Naruto","The Secret Lives of Mormon Housewives"],
+    correct: 1,
+    correctImage: "stewie.gif",
+    wrongImage: "stewie.gif",
+    correctText: "I'm a part of it! - Lois Griffin.",
+    wrongText: "Nope, Alisyn couldn't handle all the 'Meg pffft' and 'cool wHip' and 'Well, there seems to be an absence of a certain ornithological piece. A headline regarding mass awareness of a certain avian variety' references and finally gave in and watched the show."
+  },
+  {
+    question: "Finish this sentence...'Driver picks the music...'",
+    image: "driver.jpg",
+    imageEmoji: "🫎",
+    choices: ["passenger picks the snacks", "backseat critiques the driving", "passenger snitches to their parents because the driver was speeding on the way to school", "shotgun shuts his cake hole"],
+    correct: 3,
+    correctImage: "cakehole.png",
+    wrongImage: "cakehole.png",
+    correctText: "That's right. Shut it, Moose, you mop-headed lumberjack. Dean's in charge.",
+    wrongText: "Idgit. Your 'Supernatural skills' are 'rusty'."
+  },
+  {
+    question: "Where did Sarah meet Sir Didymus?",
+    image: "labyrinth.png",
+    imageEmoji: "🔮",
+    choices: ["oasis of overnight odors", "bog of eternal stench", "strip mall of 30 minutes or less sniffs", "that factory where they make britney's Curious"],
+    correct: 1,
+    correctImage: "bog.gif",
+    wrongImage: "bog.gif",
+    correctText: "Smellll. Baaad.",
+    wrongText: "Ambrosius would be ashamed of you."
+  },
+  {
+    question: "What sandwich was Paige eating when Bear de-meated it?",
+    image: "sandwich.gif",
+    imageEmoji: "🥪",
+    choices: ["one of those six foot long party subs", "reuben", "Wendy's spicy chicken sandwich", "a hot dog"],
+    correct: 1,
+    correctImage: "bear.png",
+    wrongImage: "bear.png",
+    correctText: "And he was so pleased with himself for doing it. No remorse. Only meat.",
+    wrongText: "I mean sure, he COULD have taken down one of those party subs. And is a hot dog even a sandwich? "
+  },
+  {
+    question: "If Paige could have a lifetime supply of one drug, what would it be?",
+    image: "drugs.gif",
+    imageEmoji: "💊",
+    choices: ["Advil", "Gabapentin", "Pepcid", "Sweet Mexican Black Tar Heroin"],
+    correct: 2,
+    correctImage: "volcano.gif",
+    wrongImage: "volcano.gif",
+    correctText: "Fun fact: Paige's digestive tract is actually filled with lava. Pepcid is the only thing that keeps her from spontaneously combusting. 🌋",
+    wrongText: "You've obviously never seen Paige's state of being after one of those walking tacos or a couple of strips of bacon. Pepcid is her lifeblood. Literally. She's a human volcano. 🌋"
+  },
+  {
+    question: "If you wanted to blow thine enemies to tiny bits, what is the number of the counting",
+    image: "dynamite.gif",
+    imageEmoji: "💣",
+    choices: ["4", "2", "5", "3"],
+    correct: 3,
+    correctImage: "grenade.gif",
+    wrongImage: "grenade.gif",
+    correctText: "First shalt thou take out the Holy Pin. Then shalt thou count to three, no more, no less. Three shall be the number thou shalt count, and the number of the counting shall be three. Four shalt thou not count, neither count thou two, excepting that thou then proceed to three. Five is right out. Once the number three, being the third number, be reached, then lobbest thou thy Holy Hand Grenade of Antioch towards thy foe, who, being naughty in My sight, shall snuff it. 🐇",
+    wrongText: "You need to go find a jello egg and think about your life."
+  },
+  {
+    question: "Finish this lyrics: 'We're the princes of...'",
+    image: "princes.jpg",
+    imageEmoji: "🍬",
+    choices: ["darkness", "the universe", "power", "England"],
+    correct: 1,
+    correctImage: "freddie.gif",
+    wrongImage: "freddie.gif",
+    correctText: "Bring on the girls!",
+    wrongText: "Come onnnn. Did you never watch Highlander? What even is wrong with you? There can be only one, and you're not it. 😤"
+  },
+  {
+    question: "What sequel comes out this year that Paige is unreasoably excited about?",
+    image: "sequel.jpg",
+    imageEmoji: "🎬",
+    choices: ["The Devil Wears Prada 2", "Practical Magic 2","Dune: Part Three", "Avengers: Doomsday"],
+    correct: 1,
+    correctImage: "pm2.jpg",
+    wrongImage: "pm2.jpg",
+    correctText: "I mean...who doesn't want to watch Stockard Channing and Diane Wiest dancing around a kitchen drinking margaritas?",
+    wrongText: "Much like Luka, you deserve to be buried under a garden."
+  },
+  {
+    question: "If asked, who would Alisyn say is the best sister in the world?",
+    image: "sisters.jpg",
+    imageEmoji: "👭",
+    choices: ["Sister Mary Clarence", "Elsa", "Winifred", "Paige"],
+    correct: 3,
+    correctImage: "kidPic.jpg",
+    wrongImage: "kidPic.jpg",
+    correctText: "DUH...She's only like Alisyn's favorite person in the whole world.",
+    wrongText: "Look...yes Whoopi, Idina, and Bette are all iconic, sure. But come on."
+  }
+];
+// ═══════════════════════════════════════════════════════
+// END QUIZ DATA
+// ═══════════════════════════════════════════════════════
+
+let currentQ = 0;
+let score = 0;
+const letters = ['A','B','C','D'];
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  document.getElementById('score-screen').classList.remove('show');
+  document.getElementById('next-wrap').classList.remove('show');
+  document.getElementById('q-total').textContent = questions.length;
+  document.getElementById('final-total').textContent = '/ ' + questions.length;
+  renderQuestion(0);
+  updateProgress();
+}
+
+function renderQuestion(index) {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+
+  const q = questions[index];
+  const card = document.createElement('div');
+  card.className = 'question-card active';
+  card.id = 'question-card';
+
+  // Image
+  let imgHTML = '';
+  if (q.image) {
+    imgHTML = `<img class="question-image" src="${q.image}" alt="Question image" onerror="this.style.display='none'">`;
+  } else {
+    imgHTML = `<div class="question-image-placeholder">${q.imageEmoji || '❓'}</div>`;
+  }
+
+  // Choices
+  const choicesHTML = q.choices.map((c, i) => `
+    <button class="choice-btn" onclick="selectAnswer(${i})" data-index="${i}">
+      <span class="choice-letter">${letters[i]}</span>
+      <span>${c}</span>
+    </button>
+  `).join('');
+
+  card.innerHTML = `
+    ${imgHTML}
+    <div class="question-body">
+      <div class="question-number">Question ${index + 1}</div>
+      <div class="question-text">${q.question}</div>
+      <div class="choices" id="choices">${choicesHTML}</div>
+    </div>
+  `;
+  container.appendChild(card);
+
+  // Result panel
+  const panel = document.createElement('div');
+  panel.id = 'result-panel';
+  panel.className = 'result-panel';
+  container.appendChild(panel);
+
+  document.getElementById('q-current').textContent = index + 1;
+  document.getElementById('next-wrap').classList.remove('show');
+}
+
+function selectAnswer(chosen) {
+  const q = questions[currentQ];
+  const buttons = document.querySelectorAll('.choice-btn');
+  const isCorrect = chosen === q.correct;
+
+  if (isCorrect) score++;
+
+  // Lock all buttons
+  buttons.forEach((btn, i) => {
+    btn.classList.add('locked');
+    if (i === q.correct) {
+      btn.classList.add('correct');
+    } else if (i === chosen && !isCorrect) {
+      btn.classList.add('wrong');
+    } else if (i !== q.correct) {
+      btn.classList.add('greyed');
+    }
+  });
+
+  // Show result panel
+  const panel = document.getElementById('result-panel');
+  panel.className = `result-panel ${isCorrect ? 'correct-panel' : 'wrong-panel'} show`;
+
+  let resultImgHTML = '';
+  const imgSrc = isCorrect ? q.correctImage : q.wrongImage;
+  if (imgSrc) {
+    resultImgHTML = `<img class="result-image show" src="${imgSrc}" alt="Result image">`;
+  }
+
+  panel.innerHTML = `
+    <div class="result-headline">${isCorrect ? '✅ Correct!' : '❌ Wrong!'}</div>
+    ${resultImgHTML}
+    <div class="result-text">${isCorrect ? q.correctText : q.wrongText}</div>
+  `;
+
+  // Show next button (or finish)
+  const nextWrap = document.getElementById('next-wrap');
+  const nextBtn = document.getElementById('next-btn');
+  nextWrap.classList.add('show');
+  nextBtn.textContent = currentQ < questions.length - 1 ? 'Next Question →' : 'See My Score 🎉';
+
+  // Scroll result into view
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+}
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  currentQ++;
+  if (currentQ < questions.length) {
+    renderQuestion(currentQ);
+    updateProgress();
+    document.getElementById('question-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    showScore();
+  }
+});
+
+function updateProgress() {
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function showScore() {
+  document.getElementById('quiz-container').innerHTML = '';
+  document.getElementById('next-wrap').classList.remove('show');
+  document.getElementById('progress-fill').style.width = '100%';
+
+  const screen = document.getElementById('score-screen');
+  screen.classList.add('show');
+  document.getElementById('final-score').textContent = score;
+
+  const pct = score / questions.length;
+  let title, msg;
+  if (pct === 1) {
+    title = "Perfect Score! 🏆";
+    msg = "You are an expert in all things Paige. Or maybe you are Paige! If you are, HAPPY BIRTHDAY! 🎂";
+  } else if (pct >= 0.8) {
+    title = "If you're not first, you're last! 🌟";
+    msg = "You basically just 99%ed this on Expert mode. Almost as impressive as Through the Fire and Flames but not quite.";
+  } else if (pct >= 0.6) {
+    title = "Your 'Paige skills' are rusty! 📼";
+    msg = "A valiant effort, but alas. You do not know the true intricacies of Paigeness! 🎈";
+  } else if (pct >= 0.4) {
+    title = "Maybe you should go think about your life. 😅";
+    msg = "In the great words of Mama to Eunice: 'Sowwrrrrryyyy'. 🛎️";
+  } else {
+    title = "Have you actually met Paige? 😂";
+    msg = "Even Mark Greene couldn't save you. Time of death: now. 🏥";
+  }
+
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-message').textContent = msg;
+  screen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Kick it off
+startQuiz();
+</script>
+</body>
+</html>
